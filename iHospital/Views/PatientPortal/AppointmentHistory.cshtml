@@ -1,0 +1,72 @@
+﻿@using iHospital.Models
+
+@model List<iHospital.Models.AppointmentViewModel>
+
+@{
+    ViewBag.Title = "List Appointments";
+}
+
+<!-- Main content -->
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title">Appointments</h3>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <table id="listAppointments" class="table table-bordered table-hover">
+                        <thead>
+                        <tr>
+                            <th>Start</th>
+                            <th>End</th>
+                            <th>Doctor</th>
+                            <th>Doctor Contact</th>
+                            <th>Problem</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @foreach (var apm in Model)
+                        {
+                            <tr>
+                                <td>@apm.TimeStart</td>
+                                <td>@apm.TimeEnd</td>
+                                <td>@apm.DoctorLName, @apm.DoctorFName </td>
+                                <td>@apm.DoctorPhone</td>
+                                <td>@apm.MedicalProblem</td>
+                            </tr>
+                        }
+                        </tbody>
+                        <tfoot>
+                        <tr>
+                            <th>Start</th>
+                            <th>End</th>
+                            <th>Doctor</th>
+                            <th>Doctor Contact</th>
+                            <th>Problem</th>
+                        </tr>
+                        </tfoot>
+                    </table>
+                </div>
+                <!-- /.box-body -->
+            </div>
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+</section>
+<!-- /.content -->
+
+<script type="text/javascript">
+    $(function () {
+        $('#listAppointments').DataTable({
+            'paging': true,
+            'lengthChange': false,
+            'searching': false,
+            'ordering': true,
+            'info': true,
+            'autoWidth': false
+        });
+    })
+</script>

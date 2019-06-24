@@ -1,0 +1,87 @@
+﻿@using iHospital.Models
+
+@model List<iHospital.Models.UserViewModel>
+
+@{
+    ViewBag.Title = "List Staffs";
+}
+
+<!-- Main content -->
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title">Staffs</h3>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <table id="listStaff" class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>First Name</th>
+                                <th>Last Name</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Role</th>
+                                <th class="col-md-1">
+                                    <a class="col-md-2 btn btn-primary btn-block btn-flat" href="@Url.Action("AddStaff", "StaffPortal")">
+                                        <i class="fa fa-plus"></i> Add new
+                                    </a>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        @foreach (var user in Model)
+                        {
+                            <tr>
+                                <td>@user.FName</td>
+                                <td>@user.LName</td>
+                                <td>@user.Email</td>
+                                <td>@user.Phone</td>
+                                <td>@user.Role</td>
+                                <td>
+                                    <a class="btn btn-success btn-block btn-flat" href="@Url.Action("EditStaff", "StaffPortal", new {id=user.Id})">
+                                        <i class="fa fa-edit"></i> Edit
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th>First Name</th>
+                                <th>Last Name</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Role</th>
+                                <th>
+                                    <a class="btn btn-primary btn-block btn-flat" href="@Url.Action("AddStaff", "StaffPortal")">
+                                        <i class="fa fa-plus"></i> Add new
+                                    </a>
+                                </th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+                <!-- /.box-body -->
+            </div>
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+</section>
+<!-- /.content -->
+
+<script type="text/javascript">
+    $(function () {
+        $('#listStaff').DataTable({
+            'paging': true,
+            'lengthChange': false,
+            'searching': false,
+            'ordering': true,
+            'info': true,
+            'autoWidth': false
+        });
+    })
+</script>

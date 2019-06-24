@@ -1,0 +1,113 @@
+﻿@using Microsoft.AspNet.Identity
+@model iHospital.Models.UserViewModel
+
+@{
+    ViewBag.Title = "Profile";
+}
+
+<section class="content-header">
+    <h1>
+        User Profile
+    </h1>
+</section>
+
+<div class="col-md-12">
+    <div class="nav-tabs-custom">
+        <div class="tab-pane" id="settings">
+            <form class="form-horizontal">
+                <div class="form-group">
+                    <label for="inputUsername" class="col-sm-2 control-label">Username</label>
+                    <div class="col-sm-10">
+                        <input type="email" class="form-control" disabled 
+                               id="inputUsername" placeholder="Email"
+                               value="@Model.Username">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="inputUsername" class="col-sm-2 control-label">Password</label>
+                    <div class="col-sm-10">
+                        <a href="@Url.Action("ChangePwd", "StaffPortal")">
+                            <i>Change Password...</i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="inputFName" class="col-sm-2 control-label">First Name</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" 
+                               id="inputFName" placeholder="First Name" 
+                               value="@Model.FName">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="inputLName" class="col-sm-2 control-label">Last Name</label>
+                    <div class="col-sm-10">
+                        <input type="email" class="form-control" 
+                               id="inputLName" placeholder="Last Name"
+                               value="@Model.LName">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="inputEmail" class="col-sm-2 control-label">Email</label>
+                    <div class="col-sm-10">
+                        <input type="email" class="form-control" disabled
+                               id="inputEmail" placeholder="Email"
+                               value="@Model.Email">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="inputPhone" class="col-sm-2 control-label">Phone Number</label>
+                    <div class="col-sm-10">
+                        <input type="email" class="form-control"
+                               id="inputPhone" placeholder="Phone"
+                               value="@Model.Phone">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button type="button" id="ChangeProfile" class="btn btn-primary">Submit</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- /.nav-tabs-custom -->
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#ChangeProfile').on('click', function () {
+            var formData = {
+                Id: '@Model.Id@User.Identity.GetUserId()',
+                Username: $("#inputUsername").val(),
+                FName: $("#inputFName").val(),
+                LName: $("#inputLName").val(),
+                Email: $("#inputEmail").val(),
+                Phone: $("#inputPhone").val(),
+            };
+            //console.log(formData);
+
+            $.ajax({
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                type: "POST",
+                url: "/StaffPortal/ChangeProfile",
+                data: JSON.stringify(formData),
+                success: function (result) {
+                    if (result.success) {
+                        alert("Saved changed.");
+                    } else {
+                        alert(result.error);
+                    }
+                },
+                error: function () { }
+            });
+        });
+    });
+</script>

@@ -1,0 +1,119 @@
+﻿@model List<iHospital.Database.AspNetUser>
+
+@{
+    ViewBag.Title = "Change Password";
+}
+
+<div class="col-md-12">
+    <div class="nav-tabs-custom">
+        <div class="tab-pane" id="settings">
+            <form class="form-horizontal">
+                <div class="form-group">
+                    <div class="col-md-10 ">
+                        <label>Date:</label>
+
+                        <div class="input-group date">
+                            <div class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
+                            </div>
+                            <input type="text" class="form-control pull-right" id="datepicker">
+                        </div>
+
+                        <label>Time:</label>
+
+                        <div class="bootstrap-timepicker">
+                            <label>Time picker:</label>
+
+                            <div class="input-group">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-clock-o"></i>
+                                </div>
+
+                                <input type="text" class="form-control timepicker">
+                            </div>
+                            <!-- /.input group -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-10">
+                        <select id="doctors">
+                            @foreach (var doctor in Model)
+                            {
+                                <option value="@doctor.Id">@doctor.LastName, @doctor.FirstName</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-10">
+                        <label>Medical Problem:</label>
+                        <textarea style="width: 100%; height: 240px;" id="inputProblem"></textarea>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button type="button" id="SetAppointment" class="btn btn-primary">Submit</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- /.nav-tabs-custom -->
+</div>
+
+<script type="text/javascript">
+    //Date picker
+    $('#datepicker').datepicker({
+        autoclose: true
+    });
+    //Timepicker
+    $('.timepicker').timepicker({
+        showInputs: false
+    });
+    $(document).ready(function () {
+
+        $('#SetAppointment').on('click', function () {
+            var formData = {
+                doctor: $("#doctors").val(),
+                date: $("#datepicker").val(),
+                time: $(".timepicker").val(),
+                problem: $("#inputProblem").val(),
+            };
+
+            if (formData.date === '') {
+                alert('Please choose a date.');
+                return;
+            }
+
+            if (formData.time === '') {
+                alert('Please choose a time.');
+                return;
+            }
+
+            if (formData.problem === '') {
+                alert('Please input your problem.');
+                return;
+            }
+
+            $.ajax({
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                type: "POST",
+                url: "/PatientPortal/SetAppointment",
+                data: JSON.stringify(formData),
+                success: function (result) {
+                    if (result.success) {
+                        alert("Set appointment successfully.");
+                    } else {
+                        alert(result.error);
+                    }
+                },
+                error: function () { }
+            });
+        });
+    });
+</script>

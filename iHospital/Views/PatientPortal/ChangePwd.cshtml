@@ -1,0 +1,62 @@
+﻿@{
+    ViewBag.Title = "Change Password";
+}
+
+<div class="col-md-12">
+    <div class="nav-tabs-custom">
+        <div class="tab-pane" id="settings">
+            <form class="form-horizontal">
+                <div class="form-group">
+                    <label for="inputOpwd" class="col-sm-2 control-label">Old Password</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control"
+                               id="inputOpwd" placeholder="Old Password">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="inputNpwd" class="col-sm-2 control-label">New Password</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control"
+                               id="inputNpwd" placeholder="New Password">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button type="button" id="ChangePwd" class="btn btn-primary">Submit</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- /.nav-tabs-custom -->
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#ChangePwd').on('click', function () {
+            var formData = {
+                OldPwd: $("#inputOpwd").val(),
+                NewPwd: $("#inputNpwd").val(),
+            };
+            //console.log(formData);
+
+            $.ajax({
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                type: "POST",
+                url: "/StaffPortal/ChangePwd",
+                data: JSON.stringify(formData),
+                success: function(result) {
+                    if (result.success) {
+                        alert("Password changed.");
+                    } else {
+                        alert(result.error);
+                    }
+                },
+                error: function () { }
+            });
+        });
+    });
+</script>
